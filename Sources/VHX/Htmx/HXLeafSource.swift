@@ -1,13 +1,13 @@
 import LeafKit
 import Vapor
 
-public protocol HXLeafSource: LeafSource {
+public protocol HXLeafSource: LeafSource, Sendable {
     var pagePrefix: String { get }
 }
 
-public typealias PageTemplateBuilder = (_ name: String) -> String
+public typealias PageTemplateBuilder = @Sendable (_ name: String) -> String
 
-public struct HXBasicLeafSource: HXLeafSource {
+public struct HXBasicLeafSource: HXLeafSource, Sendable {
     public let pagePrefix: String
     public let pageTemplate: PageTemplateBuilder
 
@@ -34,16 +34,19 @@ public struct HXBasicLeafSource: HXLeafSource {
     }
 }
 
-public func hxPageLeafSource(prefix: String = "--page", template: PageTemplateBuilder?) -> HXLeafSource {
+@Sendable public func hxPageLeafSource(prefix: String = "--page", template: PageTemplateBuilder?) -> HXLeafSource {
     if let template {
         return HXBasicLeafSource(pagePrefix: prefix, pageTemplate: template)
     } else {
-        func template(_ name: String) -> String {
+        @Sendable func template(_ name: String) -> String {
             """
             #extend("\(name)")
             """
         }
-        return HXBasicLeafSource(pagePrefix: prefix, pageTemplate: template)
+        return HXBasicLeafSource(
+			pagePrefix: prefix,
+			pageTemplate: template
+		)
     }
 }
 

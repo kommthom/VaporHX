@@ -38,12 +38,12 @@ struct ActiveSearchController: RouteCollection {
 }
 
 /// - Warning: Don't do this in production!
-struct ActiveSearch: Content {
-    struct Query: Content {
+struct ActiveSearch: Content, Sendable {
+    struct Query: Content, Sendable {
         let search: String
     }
 
-    struct User: Content, Hashable {
+    struct User: Content, Hashable, Sendable {
         let firstName: String
         let lastName: String
         let email: String
@@ -55,7 +55,7 @@ struct ActiveSearch: Content {
 
     var users: [User]
 
-    static var `default`: ActiveSearch = .init(users: [
+    static let `default`: ActiveSearch = .init(users: [
         .init(firstName: "Venus", lastName: "Grimes", email: "lectus.rutrum@Duisa.edu"),
         .init(firstName: "Fletcher", lastName: "Owen", email: "metus@Aenean.org"),
         .init(firstName: "William", lastName: "Hale", email: "eu.dolor@risusodio.edu"),

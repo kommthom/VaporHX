@@ -1,6 +1,6 @@
 import Vapor
 
-public struct Htmx {
+public struct Htmx: Sendable {
     public enum Preference {
         case htmx, html, api
     }

@@ -1,21 +1,21 @@
 import Vapor
 
-public struct HXReswapHeader: HXResponseHeaderAddable {
-    public enum HXSwapType: String, RawRepresentable {
+public struct HXReswapHeader: HXResponseHeaderAddable, Sendable {
+    public enum HXSwapType: String, RawRepresentable, Sendable {
         case innerHTML, outerHTML, beforebegin, afterbegin, beforeend, afterend, delete, none
     }
 
-    public enum HXDelayModifier {
+	public enum HXDelayModifier: Sendable {
         case minutes(UInt)
         case seconds(UInt)
         case milliSeconds(UInt)
     }
 
-    public enum HXScrollSide: String, RawRepresentable {
+    public enum HXScrollSide: String, RawRepresentable, Sendable {
         case top, bottom
     }
 
-    public enum HXScrollModifier {
+	public enum HXScrollModifier: Sendable {
         case none
         case window(HXScrollSide)
         case selector(String, HXScrollSide)

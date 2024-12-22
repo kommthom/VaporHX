@@ -1,16 +1,18 @@
 import Vapor
 
-public enum HXTriggerEvent {
+public typealias SendableEncodable = Encodable & Sendable
+
+public enum HXTriggerEvent: Sendable {
     case basic([String])
     case custom([HXTriggerEventKind])
 }
 
-public enum HXTriggerEventKind {
+public enum HXTriggerEventKind: Sendable {
     case message(name: String, value: String)
-    case object(name: String, value: any Encodable)
+    case object(name: String, value: any SendableEncodable)
 }
 
-public struct HXTriggerHeader: HXResponseHeaderAddable {
+public struct HXTriggerHeader: HXResponseHeaderAddable, Sendable {
     public let values: HXTriggerEvent
 
     public func serialise() -> String {
@@ -26,7 +28,7 @@ public struct HXTriggerHeader: HXResponseHeaderAddable {
     }
 }
 
-public struct HXTriggerAfterSettleHeader: HXResponseHeaderAddable {
+public struct HXTriggerAfterSettleHeader: HXResponseHeaderAddable, Sendable {
     public let value: HXTriggerEvent
 
     public func serialise() -> String {
@@ -42,7 +44,7 @@ public struct HXTriggerAfterSettleHeader: HXResponseHeaderAddable {
     }
 }
 
-public struct HXTriggerAfterSwapHeader: HXResponseHeaderAddable {
+public struct HXTriggerAfterSwapHeader: HXResponseHeaderAddable, Sendable {
     public let value: HXTriggerEvent
 
     public func serialise() -> String {
@@ -61,13 +63,13 @@ public struct HXTriggerAfterSwapHeader: HXResponseHeaderAddable {
 public extension [HXTriggerEventKind] {
     // The solution taken from:
     // https://forums.swift.org/t/how-to-encode-objects-of-unknown-type/12253/2
-    private struct AnyEncodable: Encodable {
-        private let _encode: (Encoder) throws -> Void
-        public init(_ wrapped: some Encodable) {
+    private struct AnyEncodable: Encodable, Sendable {
+		private let _encode: @Sendable (Encoder) throws -> Void
+        public init(_ wrapped: some SendableEncodable) {
             _encode = wrapped.encode
         }
 
-        func encode(to encoder: Encoder) throws {
+        @Sendable func encode(to encoder: Encoder) throws {
             try _encode(encoder)
         }
     }

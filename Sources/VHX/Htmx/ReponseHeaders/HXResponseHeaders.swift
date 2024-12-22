@@ -1,6 +1,6 @@
 import Vapor
 
-public struct HXResponseHeaders: HXResponseHeaderAddable {
+public struct HXResponseHeaders: HXResponseHeaderAddable, Sendable {
     public var location: HXLocationHeader?
     public var pushUrl: HXPushUrlHeader?
     public var redirect: HXRedirectHeader?

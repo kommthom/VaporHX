@@ -25,12 +25,12 @@ struct DeleteRowController: RouteCollection {
 }
 
 /// - Warning: Don't do this in production!
-struct DeleteRow: Content {
-    struct Key: StorageKey {
+struct DeleteRow: Content, Sendable {
+    struct Key: StorageKey, Sendable {
         typealias Value = DeleteRow
     }
 
-    struct User: Content {
+    struct User: Content, Sendable {
         let id: UUID
         let name: String
         let email: String
@@ -46,7 +46,7 @@ struct DeleteRow: Content {
 
     var users: [User]
 
-    static var `default`: DeleteRow = .init(users: [
+    static let `default`: DeleteRow = .init(users: [
         .init(name: "Joe Smith", email: "joe@smith.org", status: "Active"),
         .init(name: "Angie MacDowell", email: "angie@macdowell.org", status: "Active"),
         .init(name: "Fuqua Tarkenton", email: "fuqua@terkenton.org", status: "Active"),

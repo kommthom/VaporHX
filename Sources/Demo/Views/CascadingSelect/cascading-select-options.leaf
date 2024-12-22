@@ -1,3 +1,18 @@
-#for(model in dto.models):
-<option value='#(model.name)'>#(model.name)</option>
-#endfor
+<div>
+    <label >Model</label>
+    <select name="model" hx-post="/select/models/configurations" hx-target="#configurations" hx-indicator=".htmx-indicator">
+		#for(model in models):
+			<option value='#(model)' #if(model == models.first):selected#endif>#(model)</option>
+		#endfor
+    </select>
+	<img class="htmx-indicator" width="20" src="/img/bars.svg">
+</div>
+<div>
+    <label>Configuration</label>
+    <select id="configurations" name="configuration">
+      #for(configuration in configurations):
+        <option value='#(configuration)'>#(configuration)</option>
+      #endfor
+    </select>
+    <img class="htmx-indicator" width="20" src="/img/bars.svg">
+</div>

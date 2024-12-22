@@ -1,6 +1,6 @@
 import Vapor
 
-public struct HtmxConfiguration {
+public struct HtmxConfiguration: Sendable {
     public var pageSource: HXLeafSource
     public var errorAttemptCountHeaderName: String?
 

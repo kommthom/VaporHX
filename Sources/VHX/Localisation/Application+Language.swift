@@ -1,7 +1,7 @@
 import Vapor
 
 public extension Application {
-    struct LocalisationStorageKey: StorageKey {
+    struct LocalisationStorageKey: StorageKey, Sendable {
         public typealias Value = HXLocalisations
     }
 

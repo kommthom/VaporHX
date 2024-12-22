@@ -1,26 +1,26 @@
 import Vapor
 
-public struct HXLocalisations {
-    public var providers: [String: any HXLocalisable]
+public struct HXLocalisations: Sendable {
+    public var providers: [String: any Sendable] //HXLocalisable]
     public var defaultLanguageCode: String
-    public var overrideLanguagePreference: ((_ req: Request) -> String?)?
+    public var overrideLanguagePreference: (@Sendable (_ req: Request) -> String?)?
 
     public func localise(text: String, for code: String) -> String {
         guard !code.isEmpty else { return text }
 
-        if let localisation = providers[code] {
+		if let localisation = providers[code] as? HXLocalisable {
             return localisation.localise(text: text)
-        } else if let moreGeneralCode = HXLocalisations.generaliseLang(code: code), let localisation = providers[moreGeneralCode] {
+		} else if let moreGeneralCode = HXLocalisations.generaliseLang(code: code), let localisation = providers[moreGeneralCode] as? HXLocalisable{
             return localisation.localise(text: text)
         }
 
         return text
     }
 
-    public init(providers: [String: any HXLocalisable], defaultLanguageCode: String? = nil, overrideLanguagePreference: ((_: Request) -> String?)? = nil) {
+    public init(providers: [String: any HXLocalisable], defaultLanguageCode: String? = nil, overrideLanguagePreference: (@Sendable (_: Request) -> String?)? = nil) {
         self.providers = providers
         self.overrideLanguagePreference = overrideLanguagePreference
-        self.defaultLanguageCode = defaultLanguageCode ?? Locale.current.languageCode ?? "en"
+		self.defaultLanguageCode = defaultLanguageCode ?? Locale.current.language.languageCode?.identifier ?? "en"
     }
 
     public static func generaliseLang(code: String) -> String? {
@@ -46,6 +46,6 @@ public extension HXLocalisations {
     init() {
         providers = [:]
         overrideLanguagePreference = nil
-        defaultLanguageCode = Locale.current.languageCode ?? "en"
+		defaultLanguageCode = Locale.current.language.languageCode?.identifier ?? "en"
     }
 }

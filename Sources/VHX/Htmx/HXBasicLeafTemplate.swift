@@ -110,7 +110,7 @@ extension HXBasicLeafTemplate {
     }
 
     static func prepareBasicTemplateBuilder(defaultBaseTemplate: String, defaultSlotName: String) -> PageTemplateBuilder {
-        func templateBuilder(_ name: String) -> String {
+        @Sendable func templateBuilder(_ name: String) -> String {
             let result = parseBasicTemplate(value: name)
 
             switch result {

@@ -1,7 +1,7 @@
 import Vapor
 
-public struct HXPushUrlHeader: HXResponseHeaderAddable {
-    public enum HXPushType {
+public struct HXPushUrlHeader: HXResponseHeaderAddable, Sendable {
+	public enum HXPushType: Sendable {
         case disable
         case enable(String)
     }

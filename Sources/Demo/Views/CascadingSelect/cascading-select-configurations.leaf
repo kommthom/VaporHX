@@ -1,0 +1,3 @@
+#for(configuration in configurations):
+	<option value='#(configuration)'>#(configuration)</option>
+#endfor

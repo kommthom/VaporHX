@@ -4,7 +4,7 @@ struct BulkUpdateController: RouteCollection {
     func boot(routes: RoutesBuilder) throws {
         let bulkUpdate = routes.grouped("users")
 
-        struct BulkUpdateFeedback: Content {
+        struct BulkUpdateFeedback: Content, Sendable {
             let contact: Contact1?
             let feedback: String?
         }
@@ -51,12 +51,12 @@ struct BulkUpdateController: RouteCollection {
 }
 
 /// - Warning: Don't do this in production!
-struct BulkUpdate: Content, Validatable {
-    struct Key: StorageKey {
+struct BulkUpdate: Content, Validatable, Sendable {
+    struct Key: StorageKey, Sendable {
         typealias Value = BulkUpdate
     }
 
-    struct User: Content {
+    struct User: Content, Sendable {
         let name: String
         let email: String
         var isActive: Bool
@@ -72,7 +72,7 @@ struct BulkUpdate: Content, Validatable {
         validations.add("users", as: [User].self, is: .count(4 ... 4))
     }
 
-    static var `default`: BulkUpdate = .init(users: [
+    static let `default`: BulkUpdate = .init(users: [
         .init(name: "Joe Smith", email: "joe@smith.org", isActive: true),
         .init(name: "Angie MacDowell", email: "angie@macdowell.org", isActive: true),
         .init(name: "Fuqua Tarkenton", email: "fuqua@terkenton.org", isActive: true),

@@ -1,12 +1,12 @@
 import Vapor
 
-public struct HXLocationHeader: HXResponseHeaderAddable {
-    public enum HXLocationType {
+public struct HXLocationHeader: HXResponseHeaderAddable, Sendable {
+	public enum HXLocationType: Sendable {
         case simple(String)
         case custom(HXCustomLocation)
     }
 
-    public struct HXCustomLocation: Encodable {
+    public struct HXCustomLocation: Encodable, Sendable {
         public let path: String
         public let target: String?
         public let source: String?

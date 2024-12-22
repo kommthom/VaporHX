@@ -1,5 +1,5 @@
-public final class HXResponseConfiguration {
-    public var headers: HXResponseHeaders
+public final class HXResponseConfiguration: Sendable {
+    public let headers: HXResponseHeaders
 
     public init() {
         headers = HXResponseHeaders()

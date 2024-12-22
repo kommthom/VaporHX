@@ -1,7 +1,7 @@
 import Vapor
 
 public extension Request {
-    struct HtmxStorageKey: StorageKey {
+    struct HtmxStorageKey: StorageKey, Sendable {
         public typealias Value = Htmx
     }
 

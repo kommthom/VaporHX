@@ -20,6 +20,12 @@ public func configure(_ app: Application) async throws {
 
     let hxConfig = HtmxConfiguration.basic()
     try configureHtmx(app, configuration: hxConfig)
+	let pathToLocalizations = URL(fileURLWithPath: #filePath).deletingLastPathComponent().appendingPathComponent("Localizations").relativePath
+	try configureLocalisation(app,
+							  localisations: HXLocalisations(
+								providers: ["en" : EnLocalizable(), "de": DeLocalizable()],
+								defaultLanguageCode: nil,
+								overrideLanguagePreference: nil))
 
     // register routes
     try routes(app)

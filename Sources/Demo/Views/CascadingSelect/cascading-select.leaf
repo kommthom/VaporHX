@@ -1,17 +1,28 @@
 <div>
-    <label >Make</label>
+    <label>#t("Maker")</label>
     <select name="make" hx-get="/select/models" hx-target="#models" hx-indicator=".htmx-indicator">
-      <option value="audi" #if(dto.make == "audi"):selected#endif>Audi</option>
-      <option value="toyota" #if(dto.make == "toyota"):selected#endif>Toyota</option>
-      <option value="bmw" #if(dto.make == "bmw"):selected#endif>BMW</option>
+		#for(maker in makers):
+			<option value='#(maker)' #if(maker == makers.first):selected#endif>#(maker)</option>
+		#endfor
     </select>
 </div>
-<div>
-    <label>Model</label>
-    <select id="models" name="model">
-      #for(model in dto.models):
-        <option value='#(model.name)'>#(model.name)</option>
-      #endfor
-    </select>
-    <img class="htmx-indicator" width="20" src="/img/bars.svg">
+<div id="models">
+	<div>
+		<label >Model</label>
+		<select name="model" hx-post="/select/models/configurations" hx-target="#configurations" hx-indicator=".htmx-indicator">
+			#for(model in models):
+				<option value='#(model)' #if(model == models.first):selected#endif>#(model)</option>
+			#endfor
+		</select>
+		<img class="htmx-indicator" width="20" src="/img/bars.svg">
+	</div>
+	<div>
+		<label>Configuration</label>
+		<select id="configurations" name="configuration">
+		  #for(configuration in configurations):
+			<option value='#(configuration)'>#(configuration)</option>
+		  #endfor
+		</select>
+		<img class="htmx-indicator" width="20" src="/img/bars.svg">
+	</div>
 </div>
