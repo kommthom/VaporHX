@@ -4,6 +4,14 @@ import XCTest
 import XCTVapor
 
 final class VHXTests: XCTestCase {
+	
+	let localizationsRootPath = NSTemporaryDirectory().appending("Localizations")
+		
+	override func setUp() {
+		super.setUp()
+		try! DefaultFixtures.setup(atPath: self.localizationsRootPath)
+	}
+	
     struct Superhero: Content, Equatable {
         let name: String
         let superpower: String
@@ -14,7 +22,7 @@ final class VHXTests: XCTestCase {
             "Hello, \(context.name). Your superpower is \(context.superpower). [Page: \(isPage), type: \(req.htmx.prefers)]"
         }
     }
-
+	
     struct AnotherTemplateable: HXTemplateable {
         static func render(req _: Request, isPage: Bool, context _: EmptyContext) -> String {
             "Empty. Page: \(isPage)."
@@ -36,7 +44,10 @@ final class VHXTests: XCTestCase {
 
         let config = HtmxConfiguration.basic()
         try configureHtmx(app, configuration: config)
-        try configureLocalisation(app, localisations: HXLocalisations())
+		let localizationConfiguration = LingoConfiguration.basic()
+		try configureLocalization(app,
+								  directory: URL(string: localizationsRootPath)!.deletingLastPathComponent().relativePath,
+								  configuration: localizationConfiguration)
 
         app.get("hello") { _ in
             "world"
@@ -76,10 +87,12 @@ final class VHXTests: XCTestCase {
             let hero = Superhero(name: "Mr Freeman", superpower: "science")
             return hero.hx(template: SomeTemplateable.self)
         }
+		
+		app.get("hellotemplateable", use: staticRoute(template: "worldlocale"))
 
         app.get("header") { req async throws in
-            req.htmx.response.headers.retarget = HXRetargetHeader("#content")
-            req.htmx.response.headers.reselect = HXReselectHeader("body")
+			await req.htmx.response.setRetarget(HXRetargetHeader("#content"))
+            await req.htmx.response.setReselect(HXReselectHeader("body"))
             return try await req.htmx.render("world", headers: [HXRefreshHeader(), HXReselectHeader("form")])
         }
 
@@ -195,6 +208,13 @@ final class VHXTests: XCTestCase {
             XCTAssertEqual(hero, expectedHero)
         }
 
+		try app.testable().test(.GET, "hellotemplateable") { req in
+			req.headers.replaceOrAdd(name: .accept, value: HTTPMediaType.html.serialize())
+		} afterResponse: { res in
+			XCTAssertEqual(res.status, .ok)
+			XCTAssertEqual(res.body.string, "<div><p>Hello</p> <p>Hello World!</p>\n </div>\n")
+		}
+		
         try app.testable().test(.POST, "empty") { req in
             req.headers.replaceOrAdd(name: .accept, value: HTTPMediaType.html.serialize())
             req.headers.replaceOrAdd(name: "HX-Request", value: "true")

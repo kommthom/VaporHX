@@ -25,13 +25,13 @@ public struct HXTextTag: LeafTag {
             code = nil
         }
 
-        let localised = if let req = ctx.request {
-            req.language.localise(text: text, for: code)
+        let localized = if let req = ctx.request {
+            req.language.localize(text: text, for: code)
         } else {
             text
         }
 
-        return LeafData.string(localised)
+        return LeafData.string(localized)
     }
 
     public init() {}

@@ -88,10 +88,10 @@ public func configure(_ app: Application) async throws {
         -   [Trigger, Trigger After Settle and Trigger After Swap](#htmx)
     -   [HXError, Abort and HXErrorMiddleware](#htmx)
     -   [HXRedirect](#htmx)
--   [Simple Localisation](#htmx)
+-   [Simple Localization](#htmx)
     -   [Configuration](#htmx)
-    -   [HXLocalisable Protocol and HXLocalisation](#htmx)
-    -   [HXRequestLocalisation](#htmx)
+    -   [HXLocalisable Protocol and HXLocalization](#htmx)
+    -   [HXRequestLocalization](#htmx)
     -   [Custom HXTextTag Leaf Tag](#htmx)
 -   [Other Utilities](#htmx)
     -   [String + View](#htmx)
@@ -138,7 +138,7 @@ SPM installation:
 
 Assuming the standard use of `configure.swift' in all the following examples.
 
-The simplest config usign the Leaf engine (without localisation helpers):
+The simplest config usign the Leaf engine (without localization helpers):
 
 ```swift
 import Vapor

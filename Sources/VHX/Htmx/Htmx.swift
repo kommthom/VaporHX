@@ -7,7 +7,7 @@ public struct Htmx: Sendable {
 
     public let req: Request
 
-    public let response: HXResponseConfiguration
+    public var response: HXResponseConfiguration
 }
 
 public extension Htmx {
@@ -78,7 +78,7 @@ public extension Htmx {
         let view = try await req.view.render(templateName, context).get()
         let response = try await view.encodeResponse(for: req)
 
-        req.htmx.response.headers.add(to: response)
+		await req.htmx.response.headers.add(to: response)
 
         if let headers {
             headers.add(to: response)
@@ -104,7 +104,7 @@ public extension Htmx {
 
         let response = try await view.encodeResponse(for: req)
 
-        req.htmx.response.headers.add(to: response)
+		await req.htmx.response.headers.add(to: response)
 
         if let headers {
             headers.add(to: response)
@@ -119,7 +119,7 @@ public extension Htmx {
         let view = template.render(req: req, isPage: page, context: context).asView
         let response = try await view.encodeResponse(for: req)
 
-        req.htmx.response.headers.add(to: response)
+		await req.htmx.response.headers.add(to: response)
 
         if let headers {
             headers.add(to: response)

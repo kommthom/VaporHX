@@ -1,7 +1,7 @@
 import Vapor
 
 public extension Request {
-    var language: HXRequestLocalisation {
+    var language: HXRequestLocalization {
         .init(req: self)
     }
 }

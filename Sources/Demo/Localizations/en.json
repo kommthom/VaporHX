@@ -1,0 +1,7 @@
+{
+	"hello.world": "Hello World!",
+	"unread.messages": {
+		"one": "You have an unread message.",
+		"other": "You have %{unread-messages-count} unread messages."},
+	"example.title": "HTMX Examples"
+}

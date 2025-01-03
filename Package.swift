@@ -16,8 +16,8 @@ let package = Package(
         ),
     ],
     dependencies: [
-        .package(url: "https://github.com/vapor/vapor.git", from: "4.105.0"),
-        .package(url: "https://github.com/vapor/leaf.git", from: "4.4.0"),
+        .package(url: "https://github.com/vapor/vapor.git", from: "4.107.0"),
+        .package(url: "https://github.com/vapor/leaf.git", from: "4.4.1"),
 		.package(url: "https://github.com/miroslavkovac/Lingo.git", from: "4.0.0"),
     ],
     targets: [
