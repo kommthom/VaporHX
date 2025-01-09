@@ -82,6 +82,10 @@ final class VHXTests: XCTestCase {
         app.get("view", "override", "slot") { req in
             try await req.htmx.render("[index-custom:extra]world")
         }
+		
+		app.get("view", "override", "twoslots") { req in
+			try await req.htmx.render("[index-custom:body]world, [index-custom:extra]world")
+		}
 
         app.get("templateable") { _ in
             let hero = Superhero(name: "Mr Freeman", superpower: "science")
@@ -183,6 +187,12 @@ final class VHXTests: XCTestCase {
             XCTAssertEqual(res.status, .ok)
             XCTAssertEqual(res.body.string, "<p>World!</p>\n")
         }
+		
+		try app.testable().test(.GET, "view/override/twoslots") { res in
+			XCTAssertEqual(res.status, .ok)
+			print(res.body.string)
+			XCTAssertEqual(res.body.string, "<div><p>Welcome</p> <p>World!</p>\n </div>\n <p>World!</p>\n \n")
+		}
 
         try app.testable().test(.GET, "templateable") { req in
             req.headers.replaceOrAdd(name: .accept, value: HTTPMediaType.html.serialize())

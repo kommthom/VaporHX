@@ -109,22 +109,40 @@ extension HXBasicLeafTemplate {
         return .basic(value)
     }
 
-    static func prepareBasicTemplateBuilder(defaultBaseTemplate: String, defaultSlotName: String) -> PageTemplateBuilder {
+    static func prepareBasicTemplateBuilder(defaultBaseTemplate: String, defaultSlotNames: [String]) -> PageTemplateBuilder {
         @Sendable func templateBuilder(_ name: String) -> String {
-            let result = parseBasicTemplate(value: name)
-
-            switch result {
-            case let .basic(value):
-                return
-                    """
-                    #extend("\(defaultBaseTemplate)"): #export("\(defaultSlotName)"): #extend("\(value)") #endexport #endextend
-                    """
-            case let .custom(template, slot, value):
-                return
-                    """
-                    #extend("\(template)"): #export("\(slot ?? defaultSlotName)"): #extend("\(value)") #endexport #endextend
-                    """
-            }
+			let results = name.split(separator: ", ").map { parseBasicTemplate(value: String($0)) }
+			if results.count == 1 {
+				switch results.first! {
+					case let .basic(value):
+						return
+							"""
+							#extend("\(defaultBaseTemplate)"): #export("\(defaultSlotNames.last!)"): #extend("\(value)") #endexport #endextend
+							"""
+					case let .custom(template, slot, value):
+						return
+							"""
+							#extend("\(template)"): #export("\(slot ?? defaultSlotNames.last!)"): #extend("\(value)") #endexport #endextend
+							"""
+				}
+			} else {
+				var template = defaultBaseTemplate
+				var exports: [String] = []
+				for (i, result) in results.indexed() {
+					switch result {
+						case let .basic(value):
+							exports.append("#export(\"\(defaultSlotNames[i])\"): #extend(\"\(value)\") #endexport")
+						case let .custom(templateName, slot, value):
+							template = templateName
+							exports.append("#export(\"\(slot ?? defaultSlotNames[i])\"): #extend(\"\(value)\") #endexport")
+					}
+				}
+				let exportsString = exports.joined(separator: " ")
+				return
+					"""
+					#extend("\(template)"): \(exportsString) #endextend
+					"""
+			}
         }
 
         return templateBuilder

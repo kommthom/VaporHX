@@ -10,7 +10,7 @@ struct BulkUpdateController: RouteCollection {
         }
 
         bulkUpdate.get { req async throws in
-            try await req.htmx.render("BulkUpdate/bulk-update", ["users": req.application.bulkUpdate.users])
+            try await req.htmx.render("index-head, empty, BulkUpdate/bulk-update", ["users": req.application.bulkUpdate.users])
         }
 
         bulkUpdate.post { req async throws in

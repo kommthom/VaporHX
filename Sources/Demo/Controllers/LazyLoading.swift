@@ -5,7 +5,7 @@ struct LazyLoadingController: RouteCollection {
         let lazy = routes.grouped("lazy")
 
         lazy.get { req async throws in
-            try await req.htmx.render("LazyLoading/lazy-loading")
+            try await req.htmx.render("index-head, empty, LazyLoading/lazy-loading")
         }
 
         lazy.get("graph") { _ async throws in

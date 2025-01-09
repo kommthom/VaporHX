@@ -2,7 +2,7 @@ import Vapor
 
 func routes(_ app: Application) throws {
     app.get { req async throws in
-        try await req.htmx.render("home", ["examples": Examples])
+        try await req.htmx.render("index-head, empty, home", ["examples": examples])
     }
 
     /// Examples
@@ -28,7 +28,7 @@ struct Example: Content {
     let title: String
 }
 
-let Examples: [Example] = [
+let examples: [Example] = [
     .init(url: "contact/1", title: "Click To Edit"),
     .init(url: "users", title: "Bulk Update"),
     .init(url: "contacts", title: "Click To Load"),

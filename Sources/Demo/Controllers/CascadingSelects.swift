@@ -15,7 +15,7 @@ struct CascadingSelectController: RouteCollection {
 			switch req.htmx.prefers {
 				case .html:
 					// The entire page is being requested
-					return try await req.htmx.render("CascadingSelect/cascading-select", ["makers": makers, "models": models, "configurations": configurations])
+					return try await req.htmx.render("index-head, empty, CascadingSelect/cascading-select", ["makers": makers, "models": models, "configurations": configurations])
 				case .htmx:
 					// Just a fragment with the related models is being requested
 					return try await req.htmx.render("CascadingSelect/cascading-select-options", ["models": models, "configurations": configurations])

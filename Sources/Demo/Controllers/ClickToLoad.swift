@@ -11,7 +11,7 @@ struct ClickToLoadController: RouteCollection {
             switch req.htmx.prefers {
             case .html:
                 // The whole page is being requested
-                return try await req.htmx.render("ClickToLoad/click-to-load", ["dto": generateAgents(page: nextPage)])
+                return try await req.htmx.render("index-head, empty, ClickToLoad/click-to-load", ["dto": generateAgents(page: nextPage)])
             case .htmx:
                 // Just the fragment containing the next page of Agents is being requested
                 return try await req.htmx.render("ClickToLoad/click-to-load-rows", ["dto": generateAgents(page: nextPage)])

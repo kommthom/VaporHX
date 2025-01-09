@@ -1,5 +1,5 @@
 <div>
-    <label>#t("Maker")</label>
+    <label>#localize("hello.world")</label>
     <select name="make" hx-get="/select/models" hx-target="#models" hx-indicator=".htmx-indicator">
 		#for(maker in makers):
 			<option value='#(maker)' #if(maker == makers.first):selected#endif>#(maker)</option>

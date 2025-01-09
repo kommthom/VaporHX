@@ -32,4 +32,11 @@ public extension HtmxConfiguration {
 
         return .init(pageSource: pageSource, errorAttemptCountHeaderName: errorAttemptCountHeaderName)
     }
+	
+	static func extended(pagePrefix prefix: String = "--page", baseTemplate: String = "index-base", slotNames: [String] = ["head", "menu", "body"]) -> Self {
+		let pageSource = hxExtendedPageLeafSource(prefix: prefix, baseTemplate: baseTemplate, slotNames: slotNames)
+		let errorAttemptCountHeaderName: String? = nil
+
+		return .init(pageSource: pageSource, errorAttemptCountHeaderName: errorAttemptCountHeaderName)
+	}
 }

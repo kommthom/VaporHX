@@ -20,7 +20,7 @@ public struct HXBasicLeafSource: HXLeafSource, Sendable {
             throw HtmxPageLeafSourceError.illegalFormat
         }
 
-        let remainder = template.dropFirst(7)
+		let remainder = template.dropFirst(pagePrefix.count + 1)
 
         guard remainder.distance(from: remainder.startIndex, to: template.endIndex) > 0 else {
             throw HtmxPageLeafSourceError.illegalFormat
@@ -51,7 +51,13 @@ public struct HXBasicLeafSource: HXLeafSource, Sendable {
 }
 
 public func hxBasicPageLeafSource(prefix: String = "--page", baseTemplate: String = "index-base", slotName: String = "body") -> HXLeafSource {
-    let template = HXBasicLeafTemplate.prepareBasicTemplateBuilder(defaultBaseTemplate: baseTemplate, defaultSlotName: slotName)
+    let template = HXBasicLeafTemplate.prepareBasicTemplateBuilder(defaultBaseTemplate: baseTemplate, defaultSlotNames: [slotName])
 
     return HXBasicLeafSource(pagePrefix: prefix, pageTemplate: template)
+}
+
+public func hxExtendedPageLeafSource(prefix: String = "--page", baseTemplate: String = "index-base", slotNames: [String] = ["head", "menu", "body"]) -> HXLeafSource {
+	let template = HXBasicLeafTemplate.prepareBasicTemplateBuilder(defaultBaseTemplate: baseTemplate, defaultSlotNames: slotNames)
+
+ return HXBasicLeafSource(pagePrefix: prefix, pageTemplate: template)
 }

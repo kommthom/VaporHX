@@ -5,7 +5,7 @@ struct ActiveSearchController: RouteCollection {
         let activeSearch = routes.grouped("activeSearch")
 
         activeSearch.get { req async throws in
-            try await req.htmx.render("ActiveSearch/active-search")
+            try await req.htmx.render("index-head, empty, ActiveSearch/active-search")
         }
 
         activeSearch.post { req async throws in

@@ -11,7 +11,7 @@ struct InfiniteScrollController: RouteCollection {
             switch req.htmx.prefers {
             case .html:
                 // The whole page is being requested
-                return try await req.htmx.render("InfiniteScroll/infinite-scroll", ["dto": generateAgents(page: nextPage)])
+                return try await req.htmx.render("index-head, empty, InfiniteScroll/infinite-scroll", ["dto": generateAgents(page: nextPage)])
             case .htmx:
                 // Just the fragment containing the next page of Agents is being requested
                 try await Task.sleep(for: .seconds(1))

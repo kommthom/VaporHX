@@ -18,7 +18,7 @@ public func configure(_ app: Application) async throws {
 
     app.views.use(.leaf)
 
-    let hxConfig = HtmxConfiguration.basic()
+	let hxConfig = HtmxConfiguration.extended()
     try configureHtmx(app, configuration: hxConfig)
 	let localizationConfiguration = LingoConfiguration.basic()
 	try configureLocalization(app,

@@ -5,7 +5,7 @@ struct DeleteRowController: RouteCollection {
         let deleteRow = routes.grouped("deleteRow")
 
         deleteRow.get { req async throws in
-            try await req.htmx.render("DeleteRow/delete-row", ["users": req.application.deleteRow.users])
+            try await req.htmx.render("index-head, empty, DeleteRow/delete-row", ["users": req.application.deleteRow.users])
         }
 
         deleteRow.delete(":id") { req async throws in

@@ -14,7 +14,7 @@ struct ClickToEditController: RouteCollection {
                 req.application.contact1 = Contact1(firstName: "Joe", lastName: "Blow", email: "joe@blow.com")
             }
 
-            return try await req.htmx.render("ClickToEdit/click-to-edit", ["contact": req.application.contact1])
+            return try await req.htmx.render("index-head, empty, ClickToEdit/click-to-edit", ["contact": req.application.contact1])
         }
 
         clickToEdit.put("1") { req async throws in
